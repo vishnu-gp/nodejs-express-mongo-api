@@ -32,13 +32,18 @@ router.post('/', async (req, res) => {
 })
 
 // Update one subscriber
-router.patch('/:id', (req, res) => {
+router.patch('/:id', getSubscriber, (req, res) => {
 
 })
 
 // Delete one subscriber
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', getSubscriber, async (req, res) => {
+    try {
+        await res.subscriber.remove()
+        res.json({ message: 'Deleted Subscriber' })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
 })
 
 async function getSubscriber(req, res, next) {
